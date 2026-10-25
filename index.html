@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="GroupDraw — Smart Presentation Lottery for university students and teachers" />
+  <title>GroupDraw — Smart Presentation Lottery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div id="app" class="app-layout">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <div class="logo">
+          <i data-lucide="shuffle" class="logo-icon"></i>
+          <span class="logo-text">GroupDraw</span>
+        </div>
+        <button id="sidebar-toggle" class="btn-icon sidebar-close" aria-label="Close sidebar">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard" aria-current="page">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="students">
+          <i data-lucide="users"></i>
+          <span>Students</span>
+        </button>
+        <button class="nav-item" data-view="topics">
+          <i data-lucide="book-open"></i>
+          <span>Topics</span>
+        </button>
+        <button class="nav-item" data-view="lottery">
+          <i data-lucide="dices"></i>
+          <span>Lottery</span>
+        </button>
+        <button class="nav-item" data-view="results">
+          <i data-lucide="clipboard-list"></i>
+          <span>Results</span>
+        </button>
+        <button class="nav-item" data-view="history">
+          <i data-lucide="history"></i>
+          <span>History</span>
+        </button>
+        <button class="nav-item" data-view="settings">
+          <i data-lucide="settings"></i>
+          <span>Settings</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="theme-toggle" class="btn-icon" aria-label="Toggle theme" title="Toggle theme">
+          <i data-lucide="moon" class="theme-icon-dark"></i>
+          <i data-lucide="sun" class="theme-icon-light"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <button id="menu-toggle" class="btn-icon" aria-label="Open menu">
+          <i data-lucide="menu"></i>
+        </button>
+        <h1 id="page-title" class="page-title">Dashboard</h1>
+        <div class="topbar-actions">
+          <button id="btn-fullscreen" class="btn-icon" aria-label="Fullscreen" title="Fullscreen">
+            <i data-lucide="maximize"></i>
+          </button>
+        </div>
+      </header>
+
+      <main id="main-content" class="main-content">
+        <!-- Views injected by JS -->
+      </main>
+
+      <footer class="app-footer">
+        <p>Made by <a href="https://fb.com/reemuree" target="_blank" rel="noopener noreferrer">Mahfujur Alam Reemu</a></p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal container -->
+  <div id="modal-root" class="modal-root" hidden></div>
+
+  <!-- Toast container -->
+  <div id="toast-root" class="toast-root" aria-live="polite"></div>
+
+  <!-- Lottery overlay (projector mode) -->
+  <div id="lottery-overlay" class="lottery-overlay" hidden>
+    <div class="lottery-stage">
+      <div class="lottery-header">
+        <h2 id="lottery-session-title">Presentation Lottery</h2>
+        <div class="lottery-controls">
+          <button id="lottery-mute" class="btn-icon" aria-label="Toggle sound"><i data-lucide="volume-2"></i></button>
+          <button id="lottery-fs-exit" class="btn-icon" aria-label="Exit fullscreen"><i data-lucide="minimize"></i></button>
+        </div>
+      </div>
+      <div id="lottery-display" class="lottery-display">
+        <div class="lottery-spinner">
+          <div id="spin-name" class="spin-name">Ready</div>
+          <div id="spin-roll" class="spin-roll"></div>
+        </div>
+        <div id="lottery-progress" class="lottery-progress">
+          <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+          <span id="progress-text">0 / 0 groups</span>
+        </div>
+      </div>
+      <div id="lottery-groups-preview" class="lottery-groups-preview"></div>
+      <div class="lottery-actions">
+        <button id="btn-start-draw" class="btn btn-primary btn-lg">
+          <i data-lucide="play"></i> Start Lottery
+        </button>
+        <button id="btn-pause-draw" class="btn btn-secondary btn-lg" hidden>
+          <i data-lucide="pause"></i> Pause
+        </button>
+        <button id="btn-reveal-all" class="btn btn-accent btn-lg" hidden>
+          <i data-lucide="eye"></i> Reveal All
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
